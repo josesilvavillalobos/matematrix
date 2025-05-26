@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Restas</title>
+    <link rel="stylesheet" href="suma.css">
+</head>
+<body>
+    <h2 class="titulo">Mini juego de restas</h2>
+    <div class="cuadro-central">
+        <div id="nivel" class="cuadro">Nivel: 1</div>
+        <div id="pregunta" class="cuadro"></div>
+        <input type="number" id="respuesta" placeholder="Tu respuesta">
+        <button id="verificar" class="boton-redireccion">Verificar</button>
+        <div id="resultado"></div>
+        <br>
+        <a href="juego.html" class="boton-redireccion">Volver</a>
+    </div>
+    <script>
+        let num1, num2, resultadoCorrecto;
+        let nivel = 1;
+
+        function nuevaResta() {
+            // Aumenta el rango de los números según el nivel
+            let max = 10 + nivel * 10;
+            num1 = Math.floor(Math.random() * max);
+            num2 = Math.floor(Math.random() * max);
+            // Asegura que el resultado no sea negativo
+            if (num2 > num1) [num1, num2] = [num2, num1];
+            resultadoCorrecto = num1 - num2;
+            document.getElementById('pregunta').textContent = `${num1} - ${num2} = ?`;
+            document.getElementById('respuesta').value = '';
+            document.getElementById('resultado').textContent = '';
+            document.getElementById('nivel').textContent = `Nivel: ${nivel}`;
+        }
+
+        document.getElementById('verificar').onclick = function() {
+            const respuesta = parseInt(document.getElementById('respuesta').value, 10);
+            if (respuesta === resultadoCorrecto) {
+                document.getElementById('resultado').textContent = '¡Correcto! Pasas al siguiente nivel.';
+                document.getElementById('resultado').style.color = 'green';
+                nivel++;
+                setTimeout(nuevaResta, 1200);
+            } else {
+                document.getElementById('resultado').textContent = 'Incorrecto. Intenta de nuevo.';
+                document.getElementById('resultado').style.color = 'red';
+            }
+        };
+
+        // Inicializa la primera resta
+        nuevaResta();
+    </script>
+</body>
+</html>
